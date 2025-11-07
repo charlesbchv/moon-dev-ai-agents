@@ -1,0 +1,238 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  agents        Agent[]
+  strategies    Strategy[]
+  apiKeys       ApiKey[]
+  notifications Notification[]
+  trades        Trade[]
+
+  @@index([email])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Agent {
+  id          String      @id @default(cuid())
+  name        String
+  type        AgentType
+  status      AgentStatus @default(INACTIVE)
+  description String?
+  config      Json?
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  trades        Trade[]
+  strategies    Strategy[]
+  notifications Notification[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+}
+
+enum AgentType {
+  TRADING
+  STRATEGY
+  ANALYSIS
+  COMPLIANCE
+  RISK
+  SENTIMENT
+  RESEARCH
+  FUNDING
+  LIQUIDATION
+  SNIPER
+  RBI
+  COPYBOT
+  WHALE
+}
+
+enum AgentStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+  PAUSED
+}
+
+model Strategy {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  type        StrategyType
+  config      Json
+  status      StrategyStatus @default(DRAFT)
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentId     String?
+  agent       Agent?         @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  trades      Trade[]
+  backtests   Backtest[]
+
+  @@index([userId])
+  @@index([agentId])
+  @@index([status])
+}
+
+enum StrategyType {
+  MOMENTUM
+  MEAN_REVERSION
+  ARBITRAGE
+  MARKET_MAKING
+  TREND_FOLLOWING
+  BREAKOUT
+  SCALPING
+  SWING
+  CUSTOM
+}
+
+enum StrategyStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+model Trade {
+  id          String      @id @default(cuid())
+  symbol      String
+  side        TradeSide
+  type        TradeType
+  quantity    Float
+  price       Float
+  entryPrice  Float
+  exitPrice   Float?
+  pnl         Float?
+  pnlPercent  Float?
+  status      TradeStatus
+  exchange    String
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentId     String?
+  agent       Agent?      @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  strategyId  String?
+  strategy    Strategy?   @relation(fields: [strategyId], references: [id], onDelete: SetNull)
+  metadata    Json?
+  openedAt    DateTime    @default(now())
+  closedAt    DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([agentId])
+  @@index([strategyId])
+  @@index([status])
+  @@index([symbol])
+  @@index([openedAt])
+}
+
+enum TradeSide {
+  BUY
+  SELL
+  LONG
+  SHORT
+}
+
+enum TradeType {
+  MARKET
+  LIMIT
+  STOP_LOSS
+  TAKE_PROFIT
+}
+
+enum TradeStatus {
+  PENDING
+  OPEN
+  CLOSED
+  CANCELLED
+  FAILED
+}
+
+model Backtest {
+  id          String   @id @default(cuid())
+  strategyId  String
+  strategy    Strategy @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+  startDate   DateTime
+  endDate     DateTime
+  results     Json
+  metrics     Json
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([strategyId])
+}
+
+model ApiKey {
+  id          String   @id @default(cuid())
+  name        String
+  provider    String // CLAUDE, DEEPSEEK, GEMINI, GROK, HYPERLIQUID, etc.
+  key         String
+  isActive    Boolean  @default(true)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastUsed    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([provider])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  title     String
+  message   String
+  read      Boolean          @default(false)
+  severity  String           @default("info") // info, warning, error, success
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agentId   String?
+  agent     Agent?           @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  metadata  Json?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  TRADE_OPENED
+  TRADE_CLOSED
+  AGENT_STARTED
+  AGENT_STOPPED
+  AGENT_ERROR
+  STRATEGY_ALERT
+  SYSTEM_ALERT
+  PRICE_ALERT
+}
