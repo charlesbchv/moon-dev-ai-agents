@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Moon Trading Platform - AI-Powered Trading Automation",
+  title: "Stigl Trading Platform - AI-Powered Trading Automation",
   description:
     "Advanced AI-powered trading platform with automated strategies, real-time analytics, and intelligent agents for cryptocurrency and financial markets.",
   keywords: [
@@ -18,25 +18,25 @@ export const metadata: Metadata = {
     "trading bots",
     "algorithmic trading",
   ],
-  authors: [{ name: "Moon Dev" }],
+  authors: [{ name: "Stigl Dev" }],
   openGraph: {
-    title: "Moon Trading Platform - AI-Powered Trading Automation",
+    title: "Stigl Trading Platform - AI-Powered Trading Automation",
     description:
       "Advanced AI-powered trading platform with automated strategies and real-time analytics.",
     type: "website",
-    url: "https://moon-trading.com",
+    url: "https://stigl-trading.com",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Moon Trading Platform",
+        alt: "Stigl Trading Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Moon Trading Platform - AI-Powered Trading Automation",
+    title: "Stigl Trading Platform - AI-Powered Trading Automation",
     description:
       "Advanced AI-powered trading platform with automated strategies and real-time analytics.",
     images: ["/og-image.png"],

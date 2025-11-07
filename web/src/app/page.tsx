@@ -1,10 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, Zap, Shield, BarChart3, Bot, Brain } from "lucide-react";
+import { ArrowRight, TrendingUp, Bot, Brain, Receipt, Home, Sparkles, DollarSign, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Pricing } from "@/components/blocks/pricing";
+import { AnimatedTestimonials } from "@/components/blocks/animated-testimonials";
+import { FeaturesSectionWithHoverEffects } from "@/components/blocks/feature-section-with-hover-effects";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 
 export default function HomePage() {
   const tradingPlans = [
@@ -80,27 +83,25 @@ export default function HomePage() {
       {/* Navigation */}
       <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-xl">Moon Trading</span>
-          </div>
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-sm hover:text-primary transition-colors">
-              Features
-            </Link>
-            <Link href="#agents" className="text-sm hover:text-primary transition-colors">
-              AI Agents
-            </Link>
-            <Link href="#pricing" className="text-sm hover:text-primary transition-colors">
-              Pricing
-            </Link>
-            <Link href="#docs" className="text-sm hover:text-primary transition-colors">
-              Docs
-            </Link>
-          </div>
           <div className="flex items-center gap-3">
+            <div className="relative">
+              <Receipt className="w-9 h-9 rotate-90 text-primary" />
+              <div className="absolute inset-0 w-9 h-9 bg-gradient-to-br from-primary to-purple-600 opacity-0 mix-blend-overlay" />
+            </div>
+            <span className="font-bold text-xl">Stigl Trading</span>
+          </div>
+          
+          {/* Tubelight Navbar */}
+          <NavBar 
+            items={[
+              { name: "Home", url: "#", icon: Home },
+              { name: "Features", url: "#features", icon: Sparkles },
+              { name: "Pricing", url: "#pricing", icon: DollarSign },
+              { name: "Docs", url: "#docs", icon: BookOpen },
+            ]}
+          />
+          
+          <div className="flex items-center gap-3 pr-1">
             <Link href="/login">
               <Button variant="ghost" size="sm">
                 Sign In
@@ -117,8 +118,10 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="container mx-auto px-4 md:px-6 flex items-center min-h-[calc(100vh-4rem)] relative">
+        {/* ColorBends Background */}
+        
+        <div className="grid lg:grid-cols-2 gap-12 items-center w-full relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -229,113 +232,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-20">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold">Powerful Features</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to automate and optimize your trading strategies
-          </p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-              <Bot className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">AI Trading Agents</h3>
-            <p className="text-muted-foreground">
-              Deploy intelligent agents that trade 24/7 using advanced machine learning models
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-              <Zap className="w-6 h-6 text-purple-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Real-Time Analytics</h3>
-            <p className="text-muted-foreground">
-              Monitor your trades with live dashboards and detailed performance metrics
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-              <Shield className="w-6 h-6 text-blue-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Risk Management</h3>
-            <p className="text-muted-foreground">
-              Advanced risk controls and compliance agents protect your capital
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-              <BarChart3 className="w-6 h-6 text-green-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Strategy Backtesting</h3>
-            <p className="text-muted-foreground">
-              Test your strategies on historical data before deploying with real capital
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-orange-500/10 flex items-center justify-center mb-4">
-              <TrendingUp className="w-6 h-6 text-orange-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Multi-Exchange Support</h3>
-            <p className="text-muted-foreground">
-              Connect to major exchanges including Hyperliquid, Binance, and more
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            viewport={{ once: true }}
-            className="bg-card border rounded-xl p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4">
-              <Brain className="w-6 h-6 text-pink-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">LLM Integration</h3>
-            <p className="text-muted-foreground">
-              Powered by Claude, DeepSeek, Gemini, and Grok for intelligent decision-making
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Pricing Section */}
       <section id="pricing" className="relative overflow-hidden bg-gradient-to-b from-background via-background to-secondary/20">
         {/* Background Effects */}
@@ -391,57 +287,65 @@ export default function HomePage() {
           title="Simple, Transparent Pricing"
           description="Choose the plan that works for you. All plans include access to our platform, AI trading agents, and dedicated support."
         />
+      </section>
 
-        {/* Why Choose Section */}
-        <div className="relative container mx-auto px-4 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Moon Trading AI?</h2>
-            <p className="text-muted-foreground text-lg">The most advanced AI trading platform on the market</p>
-          </motion.div>
+      {/* Features Section with Hover Effects */}
+      <FeaturesSectionWithHoverEffects />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">🤖</div>
-              <h3 className="font-semibold mb-2">13 AI Agent Types</h3>
-              <p className="text-sm text-muted-foreground">
-                From basic trading to advanced RBI, Sniper, and Whale tracking agents
-              </p>
-            </div>
-            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="font-semibold mb-2">Real-time Execution</h3>
-              <p className="text-sm text-muted-foreground">
-                Lightning-fast order execution with sub-second latency
-              </p>
-            </div>
-            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">📊</div>
-              <h3 className="font-semibold mb-2">Advanced Analytics</h3>
-              <p className="text-sm text-muted-foreground">
-                Comprehensive backtesting and performance analytics
-              </p>
-            </div>
-            <div className="p-6 rounded-lg bg-card border border-border hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="font-semibold mb-2">Bank-level Security</h3>
-              <p className="text-sm text-muted-foreground">
-                Enterprise-grade encryption and secure API key management
-              </p>
-            </div>
-          </motion.div>
-        </div>
+      {/* Testimonials Section */}
+      <section className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <AnimatedTestimonials
+            testimonials={[
+              {
+                id: 1,
+                name: "Alex Johnson",
+                role: "Day Trader",
+                company: "Independent",
+                content:
+                  "The AI agents have completely transformed my trading strategy. I've seen a 45% increase in profits since switching to Stigl Trading. The RBI agent alone pays for the subscription!",
+                rating: 5,
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+              },
+              {
+                id: 2,
+                name: "Sarah Chen",
+                role: "Portfolio Manager",
+                company: "Quantum Capital",
+                content:
+                  "As a fund manager, I need reliable and fast execution. Stigl Trading's AI agents never miss an opportunity, and the analytics are incredibly detailed. Best trading platform I've used.",
+                rating: 5,
+                avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+              },
+              {
+                id: 3,
+                name: "Michael Rodriguez",
+                role: "Crypto Trader",
+                company: "CryptoVentures",
+                content:
+                  "The Whale tracking and Sniper agents are game-changers. I can now compete with institutional traders. The 24/7 monitoring means I never miss a profitable trade while sleeping.",
+                rating: 5,
+                avatar: "https://randomuser.me/api/portraits/men/46.jpg",
+              },
+              {
+                id: 4,
+                name: "Emily Watson",
+                role: "Quantitative Analyst",
+                company: "AlgoTrade Pro",
+                content:
+                  "The backtesting features are phenomenal. I can test strategies across multiple timeframes and markets before risking real capital. The risk management tools are enterprise-grade.",
+                rating: 5,
+                avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+              },
+            ]}
+            trustedCompanies={["Binance", "Coinbase", "Kraken", "Hyperliquid", "dYdX"]}
+          />
+        </motion.div>
       </section>
 
       {/* CTA Section */}
@@ -474,11 +378,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-white" />
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Receipt className="w-9 h-9 rotate-90 text-primary" />
+                  <div className="absolute inset-0 w-9 h-9 bg-gradient-to-br from-primary to-purple-600 opacity-0 mix-blend-overlay" />
                 </div>
-                <span className="font-bold text-lg">Moon Trading</span>
+                <span className="font-bold text-lg">Stigl Trading</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 AI-powered trading platform for the modern trader
@@ -512,7 +417,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t mt-12 pt-8 text-center text-sm text-muted-foreground">
-            © 2025 Moon Trading. All rights reserved.
+            © 2025 Stigl Trading. All rights reserved.
           </div>
         </div>
       </footer>

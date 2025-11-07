@@ -70,7 +70,7 @@ export default function SignupPage() {
             Create an account
           </CardTitle>
           <CardDescription className="text-center">
-            Enter your information to get started with Moon Trading
+            Enter your information to get started with Stigl Trading
           </CardDescription>
         </CardHeader>
         <CardContent>

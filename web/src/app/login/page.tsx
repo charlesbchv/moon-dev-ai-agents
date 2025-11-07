@@ -53,7 +53,7 @@ export default function LoginPage() {
             Welcome back
           </CardTitle>
           <CardDescription className="text-center">
-            Sign in to your Moon Trading account
+            Sign in to your Stigl Trading account
           </CardDescription>
         </CardHeader>
         <CardContent>
