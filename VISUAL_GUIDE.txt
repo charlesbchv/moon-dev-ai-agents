@@ -1,0 +1,272 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      🚀 MOON DEV AI TRADING PLATFORM - GUIDE VISUEL 🚀          ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+
+📋 ÉTAPE 1 : DÉMARRAGE ULTRA-RAPIDE
+═══════════════════════════════════════════════════════════════════
+
+cd /Users/batchaev/git/moon-dev-ai-agents
+./start-everything.sh
+
+┌────────────────────────────────────────────────────────────────┐
+│  Choisissez :                                                  │
+│                                                                │
+│  1) 🌐 Web Interface ONLY                                      │
+│  2) 🤖 AI Agents ONLY                                          │
+│  3) 🚀 EVERYTHING (Web + Agents) ⭐⭐⭐                         │
+│  4) 📊 Status Check                                            │
+│  5) 🛑 Stop Everything                                         │
+└────────────────────────────────────────────────────────────────┘
+
+
+🌐 ÉTAPE 2 : ACCÈS INTERFACE WEB
+═══════════════════════════════════════════════════════════════════
+
+URL     : http://localhost:3000
+Email   : gabriel@gmail.com
+Password: 12345678
+
+┌────────────────────────────────────────────────────────────────┐
+│  Pages disponibles :                                           │
+│                                                                │
+│  /dashboard           → Vue d'ensemble (13 agents)             │
+│  /dashboard/agents    → Gestion agents (config, search)        │
+│  /dashboard/trading   → Trading interface (AI + manual)        │
+│  /dashboard/analytics → Performance & stats                    │
+│  /dashboard/settings  → Configuration (5 tabs)                 │
+└────────────────────────────────────────────────────────────────┘
+
+
+🤖 ÉTAPE 3 : AGENTS AI DISPONIBLES
+═══════════════════════════════════════════════════════════════════
+
+TRADING (Exécution) :
+  ├─ 📈 Trading Agent      → AI LLM (Claude/GPT) - 1 ou 6 AI
+  ├─ 📊 Strategy Agent     → Algorithmes (Momentum, Mean Rev)
+  ├─ 🛡️  Risk Agent         → Risk management & limits
+  └─ 📋 CopyBot Agent      → Copy trading autres wallets
+
+SURVEILLANCE (Monitoring) :
+  ├─ 🐋 Whale Agent        → Tracking transactions baleines
+  ├─ 💭 Sentiment Agent    → Twitter, Reddit, news
+  ├─ 💰 Funding Agent      → Taux financement perpetuals
+  └─ ⚠️  Liquidation Agent  → Surveillance liquidations
+
+ANALYSE (Research) :
+  ├─ 🔬 Research Agent     → Deep dive analyse tokens
+  ├─ 📉 ChartAnalysis Agent→ Analyse technique complète
+  └─ 🎯 Sniper Agent       → Nouveaux listings, sniping
+
+AUTRES :
+  ├─ 🎲 Polymarket Agent   → Paris prédictifs
+  └─ 🟣 Solana Agent       → Trading DEX Solana
+
+
+⚙️ CONFIGURATION RAPIDE
+═══════════════════════════════════════════════════════════════════
+
+1) Clés API (.env) :
+   ┌──────────────────────────────────────────────────────┐
+   │ nano .env                                            │
+   │                                                      │
+   │ ANTHROPIC_API_KEY=sk-ant-xxxxx                      │
+   │ OPENAI_API_KEY=sk-xxxxx                             │
+   │ SOLANA_PRIVATE_KEY=xxxxx                            │
+   │ HYPERLIQUID_PRIVATE_KEY=xxxxx                       │
+   └──────────────────────────────────────────────────────┘
+
+2) Config Trading (src/config.py) :
+   ┌──────────────────────────────────────────────────────┐
+   │ nano src/config.py                                   │
+   │                                                      │
+   │ EXCHANGE = 'solana'        # Exchange utilisé       │
+   │ usd_size = 25              # Taille position        │
+   │ MAX_LOSS_USD = 25          # Perte max              │
+   │ USE_SWARM_MODE = False     # 1 AI ou 6 AI          │
+   └──────────────────────────────────────────────────────┘
+
+
+📊 ARCHITECTURE SYSTÈME
+═══════════════════════════════════════════════════════════════════
+
+    👤 User Browser (http://localhost:3000)
+         │
+         ↓
+    ┌────────────────────────────────────────┐
+    │  🌐 Next.js Web Interface              │
+    │  • Dashboard                           │
+    │  • Agent Management                    │
+    │  • Trading Interface                   │
+    │  • Analytics                           │
+    │  • Settings                            │
+    └────────────────────────────────────────┘
+         │
+         ↓ Prisma ORM
+    ┌────────────────────────────────────────┐
+    │  🗄️  PostgreSQL Database               │
+    │  • Users                               │
+    │  • Agents (13 types)                   │
+    │  • Trades                              │
+    │  • Strategies                          │
+    │  • Notifications                       │
+    │  • API Keys                            │
+    └────────────────────────────────────────┘
+         │
+         ↕ Read/Write
+    ┌────────────────────────────────────────┐
+    │  🤖 Python AI Agents                   │
+    │  • Trading (AI decisions)              │
+    │  • Strategy (Algorithms)               │
+    │  • Risk (Management)                   │
+    │  • Surveillance (Whale, Sentiment)     │
+    └────────────────────────────────────────┘
+         │
+         ↓ API Calls
+    ┌────────────────────────────────────────┐
+    │  📡 Exchanges & Services               │
+    │  • Solana (DEX)                        │
+    │  • HyperLiquid (Perps)                 │
+    │  • Aster (Futures)                     │
+    │  • Claude, GPT (AI)                    │
+    │  • Birdeye, CoinGecko (Data)          │
+    └────────────────────────────────────────┘
+
+
+🔧 COMMANDES UTILES
+═══════════════════════════════════════════════════════════════════
+
+DÉMARRAGE :
+  ./start-everything.sh          # Master launcher
+  ./start_agents.sh              # Menu agents Python
+  cd web && ./start-all.sh       # Web interface uniquement
+
+MONITORING :
+  tail -f logs/trading_agent.log       # Logs trading
+  tail -f logs/strategy_agent.log      # Logs strategy
+  ps aux | grep python                 # Processus actifs
+  lsof -ti:3000                        # Port web
+
+DATABASE :
+  cd web && npx prisma studio    # Interface graphique DB
+  psql moon_trading              # Accès psql direct
+  npm run db:seed                # Re-seed data
+
+ARRÊT :
+  kill $(lsof -ti:3000)          # Stop web
+  pkill -f "python.*agents"      # Stop agents
+  ./start-everything.sh (opt 5)  # Stop tout
+
+
+🎯 WORKFLOWS RECOMMANDÉS
+═══════════════════════════════════════════════════════════════════
+
+DÉBUTANT (Conservateur) :
+  ┌──────────────────────────────────────────────────────────┐
+  │ Terminal 1: cd web && npm run dev                        │
+  │ Terminal 2: ./python src/agents/trading_agent.py         │
+  │                                                          │
+  │ Config : 1 AI, small positions, risk agent ON           │
+  └──────────────────────────────────────────────────────────┘
+
+INTERMÉDIAIRE :
+  ┌──────────────────────────────────────────────────────────┐
+  │ ./start-everything.sh → Option 3                         │
+  │                                                          │
+  │ Config : Trading + Strategy + Risk agents               │
+  └──────────────────────────────────────────────────────────┘
+
+AVANCÉ (Agressif) :
+  ┌──────────────────────────────────────────────────────────┐
+  │ Terminal 1: Interface web                                │
+  │ Terminal 2: Trading (swarm mode, 6 AI)                  │
+  │ Terminal 3: Surveillance agents (Whale + Sentiment)      │
+  │ Terminal 4: Research agent                               │
+  │                                                          │
+  │ Config : Tous agents, swarm ON, big positions          │
+  └──────────────────────────────────────────────────────────┘
+
+
+🐛 DÉPANNAGE RAPIDE
+═══════════════════════════════════════════════════════════════════
+
+Port 3000 occupé :
+  → kill $(lsof -ti:3000)
+
+PostgreSQL pas démarré :
+  → brew services start postgresql@14
+
+Erreur Prisma :
+  → cd web && npx prisma db push && npm run db:seed
+
+Python module not found :
+  → ./python -m pip install -r requirements.txt
+
+Agent ne trade pas :
+  → Vérifier logs : tail -f logs/trading_agent.log
+  → Vérifier .env : cat .env | grep API_KEY
+  → Vérifier config : cat src/config.py
+
+
+📚 DOCUMENTATION COMPLÈTE
+═══════════════════════════════════════════════════════════════════
+
+QUICK_START.md           → Démarrage ultra-rapide (⭐ START HERE)
+GUIDE_DEMARRAGE.md       → Guide complet détaillé
+ARCHITECTURE_COMPLETE.md → Architecture système complète
+web/README_WEB.md        → Documentation interface web
+ARCHITECTURE.md          → Architecture backend Python
+docs/                    → 25+ docs spécifiques agents
+
+
+✅ CHECKLIST PREMIER LANCEMENT
+═══════════════════════════════════════════════════════════════════
+
+□ PostgreSQL installé et démarré
+□ .env créé avec clés API (ANTHROPIC_API_KEY minimum)
+□ src/config.py configuré (EXCHANGE, tokens)
+□ Database créée : createdb moon_trading
+□ Migrations appliquées : cd web && npx prisma db push
+□ Data seedée : npm run db:seed
+□ Web lancé : ./start-everything.sh option 1 ou 3
+□ Agents lancés : ./start_agents.sh
+□ Connexion dashboard : http://localhost:3000
+
+
+💡 TIPS POUR COMMENCER
+═══════════════════════════════════════════════════════════════════
+
+1. Lance TOUT avec : ./start-everything.sh → Option 3
+2. Connecte-toi : gabriel@gmail.com / 12345678
+3. Va dans /dashboard/agents pour configurer
+4. Active 1-2 agents pour commencer (Trading + Risk)
+5. Mode Testnet pour tester sans risque
+6. Surveille les logs : tail -f logs/*.log
+7. Dashboard pour monitoring temps réel
+
+
+🎉 PRÊT À TRADER !
+═══════════════════════════════════════════════════════════════════
+
+Tout est configuré et prêt à l'emploi :
+
+✅ Interface web complète (5 pages)
+✅ 13 agents AI opérationnels
+✅ Database PostgreSQL avec seed
+✅ Scripts de lancement automatiques
+✅ Configuration flexible
+✅ Documentation complète
+✅ Logs et monitoring
+
+→ Lance ./start-everything.sh et c'est parti ! 🚀
+
+
+═══════════════════════════════════════════════════════════════════
+
+Questions ? Consulte GUIDE_DEMARRAGE.md ou docs/
+
+Happy Trading! 💰📈🤖
+
+═══════════════════════════════════════════════════════════════════
