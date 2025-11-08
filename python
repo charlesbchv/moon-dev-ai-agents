@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# 🌙 Moon Dev - Alias Python
+# Utilise le bon interpréteur Python pour le projet
+
+/opt/homebrew/bin/python3 "$@"
