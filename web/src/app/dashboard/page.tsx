@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -9,15 +10,32 @@ import {
   Bot, 
   BarChart3,
   PlayCircle,
-  PauseCircle
+  PauseCircle,
+  Info,
+  ArrowRight
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Mock data - replace with real API calls
 const mockAgents = [
-  { id: "1", name: "Trading Agent", type: "TRADING", status: "ACTIVE", pnl: 2341 },
-  { id: "2", name: "Strategy Agent", type: "STRATEGY", status: "ACTIVE", pnl: 1847 },
-  { id: "3", name: "Analysis Agent", type: "ANALYSIS", status: "ACTIVE", pnl: 942 },
-  { id: "4", name: "Risk Agent", type: "RISK", status: "PAUSED", pnl: 0 },
+  { id: "1", name: "Trading Agent", type: "TRADING", status: "ACTIVE", pnl: 2341, description: "LLM-based trading with AI (Single/Swarm mode)" },
+  { id: "2", name: "Strategy Agent", type: "STRATEGY", status: "ACTIVE", pnl: 1847, description: "Execute algorithmic strategies" },
+  { id: "3", name: "Risk Agent", type: "RISK", status: "ACTIVE", pnl: 0, description: "Portfolio risk management & monitoring" },
+  { id: "4", name: "CopyBot Agent", type: "COPYBOT", status: "INACTIVE", pnl: 942, description: "Copy trades from top traders" },
+  { id: "5", name: "Sentiment Agent", type: "SENTIMENT", status: "ACTIVE", pnl: 573, description: "Twitter/social sentiment analysis" },
+  { id: "6", name: "Whale Agent", type: "WHALE", status: "ACTIVE", pnl: 1234, description: "Track whale movements & transactions" },
+  { id: "7", name: "Funding Agent", type: "FUNDING", status: "INACTIVE", pnl: 0, description: "Monitor funding rates for arbitrage" },
+  { id: "8", name: "Liquidation Agent", type: "LIQUIDATION", status: "INACTIVE", pnl: 0, description: "Track liquidations for market signals" },
+  { id: "9", name: "Sniper Agent", type: "SNIPER", status: "INACTIVE", pnl: 0, description: "Snipe new token launches" },
+  { id: "10", name: "Research Agent", type: "RESEARCH", status: "ACTIVE", pnl: 0, description: "AI-powered market research" },
+  { id: "11", name: "Chart Analysis Agent", type: "CHARTANALYSIS", status: "INACTIVE", pnl: 0, description: "Technical chart pattern analysis" },
+  { id: "12", name: "Polymarket Agent", type: "POLYMARKET", status: "INACTIVE", pnl: 0, description: "Prediction market trading" },
+  { id: "13", name: "Solana Agent", type: "SOLANA", status: "INACTIVE", pnl: 0, description: "Solana on-chain trading" },
 ];
 
 const mockTrades = [
@@ -27,10 +45,12 @@ const mockTrades = [
 ];
 
 export default function DashboardPage() {
+  const activeAgentsCount = mockAgents.filter(a => a.status === "ACTIVE").length;
+  
   const stats = {
-    totalPnL: 12847,
+    totalPnL: mockAgents.reduce((sum, agent) => sum + agent.pnl, 0),
     winRate: 87,
-    activeAgents: 3,
+    activeAgents: activeAgentsCount,
     totalTrades: 142,
   };
 
@@ -91,7 +111,7 @@ export default function DashboardPage() {
             <CardContent>
               <div className="text-2xl font-bold">{stats.activeAgents}</div>
               <p className="text-xs text-muted-foreground">
-                Out of 13 total agents
+                Out of {mockAgents.length} total agents
               </p>
             </CardContent>
           </Card>
@@ -116,54 +136,90 @@ export default function DashboardPage() {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Active AI Agents</CardTitle>
-                <CardDescription>Monitor and control your trading agents</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Active AI Agents</CardTitle>
+                    <CardDescription>Monitor and control your trading agents</CardDescription>
+                  </div>
+                  <Link href="/dashboard/agents">
+                    <Button variant="outline" size="sm">
+                      View All
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockAgents.map((agent) => (
-                    <div
-                      key={agent.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          agent.status === "ACTIVE" 
-                            ? "bg-profit/10 text-profit" 
-                            : "bg-muted text-muted-foreground"
-                        }`}>
-                          <Bot className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold">{agent.name}</h4>
-                          <p className="text-sm text-muted-foreground">{agent.type}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        {agent.pnl !== 0 && (
-                          <div className={agent.pnl > 0 ? "text-profit" : "text-loss"}>
-                            {agent.pnl > 0 ? "+" : ""}${agent.pnl}
+                  <TooltipProvider>
+                    {mockAgents.slice(0, 5).map((agent) => (
+                      <div
+                        key={agent.id}
+                        className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
+                      >
+                        <div className="flex items-center gap-4 flex-1">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                            agent.status === "ACTIVE" 
+                              ? "bg-profit/10 text-profit" 
+                              : "bg-muted text-muted-foreground"
+                          }`}>
+                            <Bot className="w-5 h-5" />
                           </div>
-                        )}
-                        <Button
-                          variant={agent.status === "ACTIVE" ? "destructive" : "default"}
-                          size="sm"
-                        >
-                          {agent.status === "ACTIVE" ? (
-                            <>
-                              <PauseCircle className="w-4 h-4 mr-1" />
-                              Pause
-                            </>
-                          ) : (
-                            <>
-                              <PlayCircle className="w-4 h-4 mr-1" />
-                              Start
-                            </>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-semibold">{agent.name}</h4>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p className="max-w-xs">{agent.description}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </div>
+                            <p className="text-sm text-muted-foreground">{agent.type}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          {agent.pnl !== 0 && (
+                            <div className={agent.pnl > 0 ? "text-profit" : "text-loss"}>
+                              {agent.pnl > 0 ? "+" : ""}${agent.pnl}
+                            </div>
                           )}
-                        </Button>
+                          <Button
+                            variant={agent.status === "ACTIVE" ? "destructive" : "default"}
+                            size="sm"
+                          >
+                            {agent.status === "ACTIVE" ? (
+                              <>
+                                <PauseCircle className="w-4 h-4 mr-1" />
+                                Pause
+                              </>
+                            ) : (
+                              <>
+                                <PlayCircle className="w-4 h-4 mr-1" />
+                                Start
+                              </>
+                            )}
+                          </Button>
+                        </div>
                       </div>
+                    ))}
+                  </TooltipProvider>
+                  
+                  {/* Show remaining agents count */}
+                  {mockAgents.length > 5 && (
+                    <div className="p-4 border border-dashed rounded-lg text-center">
+                      <p className="text-sm text-muted-foreground">
+                        + {mockAgents.length - 5} more agents
+                      </p>
+                      <Link href="/dashboard/agents">
+                        <Button variant="link" size="sm" className="mt-2">
+                          View All {mockAgents.length} Agents
+                        </Button>
+                      </Link>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
