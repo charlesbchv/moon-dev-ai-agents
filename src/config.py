@@ -4,7 +4,7 @@ Built with love by Moon Dev 🚀
 """
 
 # 🔄 Exchange Selection
-EXCHANGE = 'solana'  # Options: 'solana', 'hyperliquid'
+EXCHANGE = 'solana'  # Options: 'solana', 'hyperliquid', 'binance'
 
 # 💰 Trading Configuration
 USDC_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"  # Never trade or close
@@ -28,20 +28,30 @@ tokens_to_trade = MONITORED_TOKENS  # Using the same list for trading
 HYPERLIQUID_SYMBOLS = ['BTC', 'ETH', 'SOL']  # Symbols to trade on HyperLiquid perps
 HYPERLIQUID_LEVERAGE = 5  # Default leverage for HyperLiquid trades (1-50)
 
-# 🔄 Exchange-Specific Token Lists
+# � Binance Configuration
+BINANCE_SYMBOLS = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT']  # Symbols to trade on Binance Spot
+BINANCE_USE_FUTURES = False  # Set to True to use Binance Futures instead of Spot
+
+# �🔄 Exchange-Specific Token Lists
 # Use this to determine which tokens/symbols to trade based on active exchange
 def get_active_tokens():
     """Returns the appropriate token/symbol list based on active exchange"""
     if EXCHANGE == 'hyperliquid':
         return HYPERLIQUID_SYMBOLS
+    elif EXCHANGE == 'binance':
+        return BINANCE_SYMBOLS
     else:
         return MONITORED_TOKENS
 
 # Token to Exchange Mapping (for future hybrid trading)
 TOKEN_EXCHANGE_MAP = {
     'BTC': 'hyperliquid',
+    'BTCUSDT': 'binance',
     'ETH': 'hyperliquid',
+    'ETHUSDT': 'binance',
     'SOL': 'hyperliquid',
+    'SOLUSDT': 'binance',
+    'BNBUSDT': 'binance',
     # All other tokens default to Solana
 }
 

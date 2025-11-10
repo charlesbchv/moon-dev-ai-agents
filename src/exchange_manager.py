@@ -58,6 +58,20 @@ class ExchangeManager:
             except Exception as e:
                 cprint(f"❌ Failed to initialize Solana: {str(e)}", "red")
                 raise
+
+        elif self.exchange.lower() == 'binance':
+            try:
+                from src import nice_funcs_binance as binance
+                self.binance = binance
+                
+                # Test connection
+                balance = binance.get_balance('USDT')
+                cprint(f"✅ Initialized Binance exchange manager", "green")
+                cprint(f"   USDT Balance: ${balance:.2f}", "cyan")
+
+            except Exception as e:
+                cprint(f"❌ Failed to initialize Binance: {str(e)}", "red")
+                raise
         else:
             raise ValueError(f"Unknown exchange: {self.exchange}")
 
@@ -66,7 +80,7 @@ class ExchangeManager:
         Execute a market buy order
 
         Args:
-            symbol_or_token: Symbol (for HyperLiquid) or token address (for Solana)
+            symbol_or_token: Symbol (for HyperLiquid/Binance) or token address (for Solana)
             usd_amount: USD amount to buy
 
         Returns:
@@ -74,6 +88,8 @@ class ExchangeManager:
         """
         if self.exchange.lower() == 'hyperliquid':
             return self.hl.market_buy(symbol_or_token, usd_amount, self.account)
+        elif self.exchange.lower() == 'binance':
+            return self.binance.market_buy(symbol_or_token, usd_amount)
         else:
             return self.solana.market_buy(symbol_or_token, usd_amount)
 
@@ -82,8 +98,8 @@ class ExchangeManager:
         Execute a market sell order
 
         Args:
-            symbol_or_token: Symbol (for HyperLiquid) or token address (for Solana)
-            usd_amount_or_percent: USD amount for HyperLiquid, percentage for Solana
+            symbol_or_token: Symbol (for HyperLiquid/Binance) or token address (for Solana)
+            usd_amount_or_percent: USD amount for HyperLiquid, percentage for Solana/Binance
 
         Returns:
             Order result from the respective exchange
@@ -91,6 +107,9 @@ class ExchangeManager:
         if self.exchange.lower() == 'hyperliquid':
             # HyperLiquid expects USD amount
             return self.hl.market_sell(symbol_or_token, usd_amount_or_percent, self.account)
+        elif self.exchange.lower() == 'binance':
+            # Binance expects percentage (0-100) or quantity
+            return self.binance.market_sell(symbol_or_token, usd_amount_or_percent)
         else:
             # Solana expects percentage (0-100)
             return self.solana.market_sell(symbol_or_token, usd_amount_or_percent)
